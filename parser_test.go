@@ -74,7 +74,7 @@ func TestParseEmptyValueAndEmptyObject(t *testing.T) {
 }
 
 func TestDirectivesDefaultIgnoredAndPreserved(t *testing.T) {
-	input := `#include "base.vdf" "root" { #base "defaults.vdf" "k" "v" }`
+	input := `#include "base.vdf" "root" { #base "defaults.vdf" "k" "v" } #custom "kept"`
 	doc, err := ParseString(input)
 	if err != nil {
 		t.Fatalf("ParseString() error = %v", err)
@@ -84,6 +84,9 @@ func TestDirectivesDefaultIgnoredAndPreserved(t *testing.T) {
 	}
 	if doc.First("root").First("#base") != nil {
 		t.Fatalf("nested directive should be ignored by default")
+	}
+	if got := doc.First("#custom").Value; got != "kept" {
+		t.Fatalf("unknown directive-like key should be kept, got %q", got)
 	}
 
 	doc, err = ParseString(input, WithPreserveDirectives(true))
@@ -95,6 +98,88 @@ func TestDirectivesDefaultIgnoredAndPreserved(t *testing.T) {
 	}
 	if got := doc.First("root").First("#base").Value; got != "defaults.vdf" {
 		t.Fatalf("base = %q", got)
+	}
+}
+
+func TestConditionTokensAreAcceptedButNotEvaluated(t *testing.T) {
+	input := `"root" { "windows" "kept" [$WIN32] "linux" "also kept" [$LINUX] } [$X360] "next" "ok"`
+	doc, err := ParseString(input)
+	if err != nil {
+		t.Fatalf("ParseString() error = %v", err)
+	}
+	root := doc.First("root")
+	if got := root.First("windows").Value; got != "kept" {
+		t.Fatalf("windows = %q", got)
+	}
+	if got := root.First("linux").Value; got != "also kept" {
+		t.Fatalf("linux = %q", got)
+	}
+	if got := doc.First("next").Value; got != "ok" {
+		t.Fatalf("next = %q", got)
+	}
+}
+
+func TestUnexpectedConditionErrors(t *testing.T) {
+	tests := []string{
+		`[$WIN32] "key" "value"`,
+		`"root" { [$WIN32] "key" "value" }`,
+		`"key" "value" [$WIN32`,
+	}
+	for _, input := range tests {
+		if _, err := ParseString(input); err == nil {
+			t.Fatalf("ParseString(%q) succeeded", input)
+		}
+	}
+}
+
+func TestTextKeyValuesEdgeCases(t *testing.T) {
+	input := "\"\" \"empty key\"\r\n\"utf8\" \"简体中文\"\r\n\"empty_object\" { }\r\n\"unknown_escape\" \"a\\zb\" // line comment\r\n\"next\" \"ok\""
+	doc, err := ParseString(input)
+	if err != nil {
+		t.Fatalf("ParseString() error = %v", err)
+	}
+	if got := doc.First("").Value; got != "empty key" {
+		t.Fatalf("empty key value = %q", got)
+	}
+	if got := doc.First("utf8").Value; got != "简体中文" {
+		t.Fatalf("utf8 value = %q", got)
+	}
+	if !doc.First("empty_object").IsObject() {
+		t.Fatalf("empty_object should be object")
+	}
+	if got := doc.First("unknown_escape").Value; got != `a\zb` {
+		t.Fatalf("unknown_escape = %q", got)
+	}
+	if got := doc.First("next").Value; got != "ok" {
+		t.Fatalf("next = %q", got)
+	}
+}
+
+func TestParseErrorMessagesRegression(t *testing.T) {
+	tests := []struct {
+		input string
+		want  string
+		line  int
+	}{
+		{input: "\"root\"\r\n{\r\n\"k\" \"v\"", want: "missing closing brace", line: 3},
+		{input: `"root" { "k" "unterminated`, want: "unterminated quoted string", line: 1},
+		{input: `"root" { "k" }`, want: `expected value or "{" after key "k"`, line: 1},
+	}
+	for _, tt := range tests {
+		_, err := ParseString(tt.input)
+		if err == nil {
+			t.Fatalf("ParseString(%q) succeeded", tt.input)
+		}
+		var parseErr *ParseError
+		if !errors.As(err, &parseErr) {
+			t.Fatalf("error %T is not *ParseError", err)
+		}
+		if !strings.Contains(parseErr.Message, tt.want) {
+			t.Fatalf("message = %q, want contains %q", parseErr.Message, tt.want)
+		}
+		if parseErr.Line != tt.line {
+			t.Fatalf("line = %d, want %d", parseErr.Line, tt.line)
+		}
 	}
 }
 
@@ -171,7 +256,11 @@ func TestFixtures(t *testing.T) {
 		{"testdata/nested.vdf", "root"},
 		{"testdata/duplicate_keys.vdf", "root"},
 		{"testdata/libraryfolders.vdf", "libraryfolders"},
+		{"testdata/config.vdf", "InstallConfigStore"},
+		{"testdata/loginusers.vdf", "users"},
 		{"testdata/appmanifest_730.acf", "AppState"},
+		{"testdata/appmanifest_570.acf", "AppState"},
+		{"testdata/sample_keyvalues.cfg", "SampleConfig"},
 	}
 	for _, tt := range tests {
 		doc, err := ParseFile(tt.path)
@@ -197,6 +286,27 @@ func TestFixtures(t *testing.T) {
 	}
 	if got := app.Path("AppState", "InstalledDepots", "731", "manifest").Value; got == "" {
 		t.Fatalf("missing depot manifest")
+	}
+
+	cfg, err := ParseFile("testdata/sample_keyvalues.cfg")
+	if err != nil {
+		t.Fatalf("ParseFile(sample_keyvalues.cfg) error = %v", err)
+	}
+	if got := cfg.Path("SampleConfig", "Profile", "Mode").Value; got != "safe" {
+		t.Fatalf("cfg mode = %q", got)
+	}
+}
+
+func TestCommandStyleCFGIsNotVDFScope(t *testing.T) {
+	data, err := os.ReadFile("testdata/source_commands.cfg")
+	if err != nil {
+		t.Fatalf("ReadFile(source_commands.cfg) error = %v", err)
+	}
+	text := string(data)
+	for _, want := range []string{"bind", "con_enable", "not a VDF / KeyValues object tree"} {
+		if !strings.Contains(text, want) {
+			t.Fatalf("source_commands.cfg missing %q", want)
+		}
 	}
 }
 

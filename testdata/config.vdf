@@ -1,0 +1,15 @@
+"InstallConfigStore"
+{
+	"Software"
+	{
+		"Valve"
+		{
+			"Steam"
+			{
+				"AutoUpdateWindowEnabled"	"1"
+				"StartupMode"	"0"
+				"Language"	"english"
+			}
+		}
+	}
+}

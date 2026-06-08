@@ -1,6 +1,6 @@
 # Compatibility
 
-This document describes the `v0.1.x` compatibility boundary for `vdf-go`.
+This document describes the compatibility boundary for `vdf-go`.
 
 ## Supported
 
@@ -13,12 +13,18 @@ This document describes the `v0.1.x` compatibility boundary for `vdf-go`.
 - Child order preservation.
 - `//` line comments when `AllowComments` is enabled.
 - Basic escapes in quoted strings: `\n`, `\t`, `\\`, and `\"`.
-- Common Steam text files such as `libraryfolders.vdf` and `appmanifest_*.acf`.
+- Common Steam text files such as `libraryfolders.vdf`, `config.vdf`,
+  `loginusers.vdf`, and `appmanifest_*.acf`.
+- KeyValues-style `.cfg` files.
+- Condition tokens such as `[$WIN32]` after values or objects. They are accepted
+  and discarded.
 - Parser errors with line, column, and byte offset.
 - Stable readable marshal output.
 
-## Not Supported in v0.1.x
+## Not Supported
 
+- Source / console command-style `.cfg` files, such as line-oriented `bind`,
+  `alias`, and cvar config files.
 - Binary VDF.
 - `shortcuts.vdf`.
 - Struct decoder or encoder.
@@ -37,7 +43,8 @@ referenced by directives.
 
 Default behavior:
 
-- directives are consumed and ignored;
+- `#include` and `#base` are consumed and ignored;
+- other `#...` keys are parsed as ordinary keys;
 - no filesystem reads are performed;
 - no path normalization is performed.
 
@@ -47,6 +54,12 @@ With `WithPreserveDirectives(true)`:
 - for `#include "base.vdf"`, the node key is `#include` and value is
   `base.vdf`;
 - the referenced file is still not read.
+
+## Condition Tokens
+
+Condition tokens such as `[$WIN32]` are accepted after a value or object and then
+discarded. The parser does not evaluate the condition, so the associated node is
+parsed unconditionally.
 
 ## Ordering and Duplicate Keys
 
@@ -60,3 +73,8 @@ when duplicate keys matter.
 
 Marshal output is designed to be stable and readable. It does not preserve
 original comments, blank lines, spacing, or quote style.
+
+## Chinese Documentation
+
+The detailed Chinese compatibility matrix is maintained at
+[`docs/zh/compatibility.md`](zh/compatibility.md).

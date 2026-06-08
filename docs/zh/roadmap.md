@@ -22,7 +22,7 @@
 
 ### v0.2.0 - Steam 文本样本兼容矩阵
 
-**Status:** Planned  
+**Status:** Completed  
 **Scope:** Compatibility / Testing / Documentation  
 **Goal:** 明确 `vdf-go` 对 `.vdf`、`.acf`、`.cfg` 和其他 Steam 文本配置文件的真实兼容边界。
 
@@ -34,12 +34,12 @@
 
 #### Tasks
 
-- [ ] 收集并脱敏 Steam / Valve 生态里的代表性 `.cfg` 样本。
-- [ ] 区分 KeyValues 风格 `.cfg` 与 Source / console command 风格 `.cfg`。
-- [ ] 为 KeyValues 风格 `.cfg` 增加 parse fixtures 和回归测试。
-- [ ] 为命令式 `.cfg` 增加“不属于当前 VDF parser 范围”的文档说明。
-- [ ] 扩充 `.vdf` / `.acf` fixture，包括 `config.vdf`、`loginusers.vdf`、更多 `appmanifest_*.acf`。
-- [ ] 更新 `docs/zh/compatibility.md`，维护格式支持矩阵。
+- [x] 收集并脱敏 Steam / Valve 生态里的代表性 `.cfg` 样本。
+- [x] 区分 KeyValues 风格 `.cfg` 与 Source / console command 风格 `.cfg`。
+- [x] 为 KeyValues 风格 `.cfg` 增加 parse fixtures 和回归测试。
+- [x] 为命令式 `.cfg` 增加“不属于当前 VDF parser 范围”的文档说明。
+- [x] 扩充 `.vdf` / `.acf` fixture，包括 `config.vdf`、`loginusers.vdf`、更多 `appmanifest_*.acf`。
+- [x] 更新 `docs/zh/compatibility.md`，维护格式支持矩阵。
 
 #### Acceptance Criteria
 
@@ -48,11 +48,15 @@
 - 命令式 `.cfg` 不会被错误宣传为已完整支持。
 - 新增 fixtures 不包含用户隐私、账号 token、安装路径中的敏感信息。
 
+#### Notes
+
+`v0.2.0` 只确认 `.cfg` 兼容边界：KeyValues 风格 `.cfg` 属于当前 parser 范围；Source / console command 风格 `.cfg` 暂不支持，后续如需支持应设计独立 parser 或子包。
+
 ---
 
 ### v0.2.1 - Text KeyValues 兼容性增强
 
-**Status:** Planned  
+**Status:** Completed  
 **Scope:** User-facing / Compatibility / Parser  
 **Goal:** 在不扩大 Steam 业务边界的前提下，提高 Valve / Source KeyValues 文本兼容性。
 
@@ -64,17 +68,21 @@
 
 #### Tasks
 
-- [ ] 明确只对 `#include` 和 `#base` 做特殊 directive 识别，其他 `#xxx` 保持可预测行为。
-- [ ] 继续保证 directive 默认不执行、不读文件。
-- [ ] 设计 condition token `[$WIN32]` 的保留策略，先保留或忽略，不做条件求值。
-- [ ] 增加 CRLF、UTF-8、空 key、空 object、奇怪转义、行尾注释边界测试。
-- [ ] 增加 parser 错误消息回归测试，避免错误位置退化。
+- [x] 明确只对 `#include` 和 `#base` 做特殊 directive 识别，其他 `#xxx` 保持可预测行为。
+- [x] 继续保证 directive 默认不执行、不读文件。
+- [x] 设计 condition token `[$WIN32]` 的保留策略，先接受并跳过，不做条件求值。
+- [x] 增加 CRLF、UTF-8、空 key、空 object、奇怪转义、行尾注释边界测试。
+- [x] 增加 parser 错误消息回归测试，避免错误位置退化。
 
 #### Acceptance Criteria
 
 - directive 行为在 README 和中文兼容性文档中一致。
 - 条件 token 有明确策略，不会被误解为已执行条件求值。
 - 新增边缘语法测试通过。
+
+#### Notes
+
+`v0.2.1` 的 condition token 策略是“接受但不求值”：例如 `[$WIN32]` 可以出现在 value 或 object 后面，parser 会跳过该 token，关联节点仍无条件保留。后续如需条件求值，应先设计独立选项和平台上下文，不能作为默认行为。
 
 ---
 
@@ -179,10 +187,10 @@
 
 ## v0.2.x 总体验收标准
 
-- [ ] `.cfg` 兼容边界被明确分类和记录。
-- [ ] KeyValues 风格 `.cfg` 有 fixture 和测试覆盖。
-- [ ] 更多 `.vdf` / `.acf` / Steam 文本样本被纳入测试。
+- [x] `.cfg` 兼容边界被明确分类和记录。
+- [x] KeyValues 风格 `.cfg` 有 fixture 和测试覆盖。
+- [x] 更多 `.vdf` / `.acf` / Steam 文本样本被纳入测试。
 - [ ] GoDoc、CHANGELOG、中文文档和 release checklist 完成。
 - [ ] fuzz 和 malformed corpus 明显增强。
-- [ ] directive / condition token 策略清楚且有测试。
+- [x] directive / condition token 策略清楚且有测试。
 - [ ] 核心包仍保持小 API、无 Steam 业务绑定、无危险自动文件读取。

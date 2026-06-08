@@ -14,6 +14,7 @@ const (
 	tokenLBrace
 	tokenRBrace
 	tokenDirective
+	tokenCondition
 )
 
 type position struct {
@@ -60,6 +61,8 @@ func (l *lexer) next() (token, error) {
 		return l.scanQuoted()
 	case '#':
 		return l.scanDirective()
+	case '[':
+		return l.scanCondition()
 	default:
 		if !l.cfg.AllowBareTokens {
 			return token{}, newParseError(pos, "unexpected bare token")
@@ -179,6 +182,28 @@ func (l *lexer) scanDirective() (token, error) {
 	}
 done:
 	return token{kind: tokenDirective, text: string(l.input[begin:l.pos]), pos: start}, nil
+}
+
+func (l *lexer) scanCondition() (token, error) {
+	start := l.position()
+	begin := l.pos
+	l.advanceByte()
+	for !l.eof() {
+		if l.peekByte() == ']' {
+			l.advanceByte()
+			return token{kind: tokenCondition, text: string(l.input[begin:l.pos]), pos: start}, nil
+		}
+		switch l.peekByte() {
+		case '\r', '\n':
+			return token{}, newParseError(start, "unterminated condition token")
+		default:
+			l.advanceByte()
+			if err := l.checkTokenSize(start, l.pos-begin); err != nil {
+				return token{}, err
+			}
+		}
+	}
+	return token{}, newParseError(start, "unterminated condition token")
 }
 
 func (l *lexer) checkTokenSize(pos position, size int) error {

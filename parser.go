@@ -58,6 +58,9 @@ func (p *parser) parseDocument() (*Document, error) {
 		if tok.kind == tokenEOF {
 			return &Document{Nodes: nodes}, nil
 		}
+		if tok.kind == tokenCondition {
+			return nil, newParseError(tok.pos, "unexpected condition token %q", tok.text)
+		}
 		if tok.kind == tokenRBrace {
 			return nil, newParseError(tok.pos, "unexpected %q", tok.text)
 		}
@@ -88,6 +91,8 @@ func (p *parser) parseChildren(depth int) ([]*Node, error) {
 		case tokenRBrace:
 			_, _ = p.next()
 			return nodes, nil
+		case tokenCondition:
+			return nil, newParseError(tok.pos, "unexpected condition token %q", tok.text)
 		default:
 			node, keep, err := p.parseNode(depth)
 			if err != nil {
@@ -115,16 +120,25 @@ func (p *parser) parseNode(depth int) (*Node, bool, error) {
 	}
 	switch value.kind {
 	case tokenLBrace:
-		if err := p.countNode(key.pos); err != nil {
-			return nil, false, err
-		}
 		children, err := p.parseChildren(depth + 1)
 		if err != nil {
 			return nil, false, err
 		}
+		if err := p.skipConditions(); err != nil {
+			return nil, false, err
+		}
+		if isKnownDirective(key) && !p.cfg.PreserveDirectives {
+			return nil, false, nil
+		}
+		if err := p.countNode(key.pos); err != nil {
+			return nil, false, err
+		}
 		return &Node{Key: key.text, Children: children}, true, nil
 	case tokenString, tokenBare:
-		if key.kind == tokenDirective && !p.cfg.PreserveDirectives {
+		if err := p.skipConditions(); err != nil {
+			return nil, false, err
+		}
+		if isKnownDirective(key) && !p.cfg.PreserveDirectives {
 			return nil, false, nil
 		}
 		if err := p.countNode(key.pos); err != nil {
@@ -135,6 +149,19 @@ func (p *parser) parseNode(depth int) (*Node, bool, error) {
 		return nil, false, newParseError(key.pos, "expected value or %q after key %q", "{", key.text)
 	default:
 		return nil, false, newParseError(value.pos, "expected value or %q after key %q", "{", key.text)
+	}
+}
+
+func (p *parser) skipConditions() error {
+	for {
+		tok, err := p.peek()
+		if err != nil {
+			return err
+		}
+		if tok.kind != tokenCondition {
+			return nil
+		}
+		_, _ = p.next()
 	}
 }
 
@@ -169,4 +196,8 @@ func (p *parser) next() (token, error) {
 
 func isKeyToken(kind tokenKind) bool {
 	return kind == tokenString || kind == tokenBare || kind == tokenDirective
+}
+
+func isKnownDirective(tok token) bool {
+	return tok.kind == tokenDirective && (tok.text == "#include" || tok.text == "#base")
 }

@@ -4,8 +4,8 @@ A small Go parser and toolkit for Valve Data Format (VDF / KeyValues) text files
 
 `vdf-go` focuses on the generic text format used by Valve and Steam files such as
 `libraryfolders.vdf`, `appmanifest_*.acf`, `config.vdf`, and Source-style
-KeyValues files. It is not a Steam client scanner and does not implement binary
-VDF.
+KeyValues files, including KeyValues-style `.cfg` files. It is not a Steam
+client scanner and does not implement binary VDF.
 
 ## Install
 
@@ -79,7 +79,11 @@ doc, err := vdf.ParseString(input,
 
 `#include` and `#base` are never executed and never read files. By default they
 are ignored. Use `WithPreserveDirectives(true)` to keep them as ordinary
-key/value nodes.
+key/value nodes. Other `#...` keys are parsed as ordinary keys.
+
+Condition tokens such as `[$WIN32]` are accepted after a value or object and
+discarded. `vdf-go` does not evaluate platform conditions; the associated node
+is parsed unconditionally.
 
 ## Querying
 
@@ -144,9 +148,10 @@ Parsing and marshaling functions do not use package-level mutable state.
 
 ## Compatibility
 
-`v0.1.x` supports text VDF / KeyValues only. It does not support binary VDF,
-`shortcuts.vdf`, struct decoding, Steam library scanning, comment round-tripping,
-or automatic include/base expansion.
+`vdf-go` supports text VDF / KeyValues only, including KeyValues-style `.cfg`
+files. It does not support Source / console command-style `.cfg`, binary VDF,
+`shortcuts.vdf`, struct decoding, Steam library scanning, comment
+round-tripping, or automatic include/base expansion.
 
 See [docs/compatibility.md](docs/compatibility.md) for details.
 
