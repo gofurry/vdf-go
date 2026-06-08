@@ -9,9 +9,27 @@ small, documented, and covered by tests.
 
 ### Added
 
-- Package-level GoDoc and runnable GoDoc examples.
-- Chinese documentation under `docs/zh/`.
-- Release checklist under `docs/release-checklist.md`.
+- Malformed corpus fixtures for unexpected braces, missing directive values,
+  unterminated conditions, deep nesting, and oversized tokens.
+- Regression tests to ensure parser errors do not echo sensitive input.
+- Benchmarks for parsing and marshaling real fixtures.
+
+## v0.2.3 - Fuzz and Malformed Corpus Hardening
+
+### Added
+
+- Extended malformed fixture corpus.
+- Resource-limit regression tests for depth and token-size failures.
+- Error-message regression tests that guard against leaking raw sensitive input.
+- Fixture-based parse and marshal benchmarks.
+
+### Validated
+
+- `go test ./...`
+- `go vet ./...`
+- `staticcheck ./...`
+- `go test -cover ./...`
+- `go test -run=FuzzParse -fuzz=FuzzParse -fuzztime=1m`
 
 ## v0.2.2 - GoDoc, Chinese Docs, and Release Hygiene
 

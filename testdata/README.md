@@ -14,3 +14,16 @@ machine-specific paths, or private install metadata.
 
 - `source_commands.cfg`: Source / console command-style config. This format is
   line-oriented command text, not a VDF object tree.
+
+## Malformed corpus
+
+Malformed fixtures are intentionally invalid and should fail with ordinary
+parser errors:
+
+- missing closing braces;
+- unterminated quoted strings;
+- unexpected closing braces;
+- missing directive values;
+- unterminated condition tokens;
+- excessive nesting under a low `MaxDepth`;
+- oversized tokens under a low `MaxTokenBytes`.

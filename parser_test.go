@@ -314,9 +314,76 @@ func TestMalformedFixtures(t *testing.T) {
 	for _, path := range []string{
 		"testdata/malformed_missing_brace.vdf",
 		"testdata/malformed_unterminated_quote.vdf",
+		"testdata/malformed_unexpected_closing_brace.vdf",
+		"testdata/malformed_directive_missing_value.vdf",
+		"testdata/malformed_unterminated_condition.vdf",
 	} {
-		if _, err := ParseFile(path); err == nil {
+		_, err := ParseFile(path)
+		if err == nil {
 			t.Fatalf("ParseFile(%q) succeeded", path)
+		}
+		var parseErr *ParseError
+		if !errors.As(err, &parseErr) {
+			t.Fatalf("ParseFile(%q) error %T is not *ParseError", path, err)
+		}
+	}
+}
+
+func TestMalformedResourceLimitFixtures(t *testing.T) {
+	tests := []struct {
+		path string
+		opts []Option
+		want string
+	}{
+		{
+			path: "testdata/malformed_deep_nesting.vdf",
+			opts: []Option{WithMaxDepth(3)},
+			want: "maximum depth exceeded",
+		},
+		{
+			path: "testdata/malformed_token_too_large.vdf",
+			opts: []Option{WithMaxTokenBytes(16)},
+			want: "token exceeds maximum size",
+		},
+	}
+	for _, tt := range tests {
+		_, err := ParseFile(tt.path, tt.opts...)
+		if err == nil {
+			t.Fatalf("ParseFile(%q) succeeded", tt.path)
+		}
+		var parseErr *ParseError
+		if !errors.As(err, &parseErr) {
+			t.Fatalf("ParseFile(%q) error %T is not *ParseError", tt.path, err)
+		}
+		if !strings.Contains(parseErr.Message, tt.want) {
+			t.Fatalf("ParseFile(%q) message = %q, want %q", tt.path, parseErr.Message, tt.want)
+		}
+	}
+}
+
+func TestParseErrorsDoNotEchoSensitiveInput(t *testing.T) {
+	tests := []struct {
+		input  string
+		opts   []Option
+		secret string
+	}{
+		{
+			input:  `"root" { "token" "super-secret-value`,
+			secret: "super-secret-value",
+		},
+		{
+			input:  `"super-secret-token-value" "x"`,
+			opts:   []Option{WithMaxTokenBytes(8)},
+			secret: "super-secret-token-value",
+		},
+	}
+	for _, tt := range tests {
+		_, err := ParseString(tt.input, tt.opts...)
+		if err == nil {
+			t.Fatalf("ParseString(%q) succeeded", tt.input)
+		}
+		if strings.Contains(err.Error(), tt.secret) {
+			t.Fatalf("error leaked sensitive input %q: %v", tt.secret, err)
 		}
 	}
 }

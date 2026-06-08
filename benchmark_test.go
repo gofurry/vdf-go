@@ -1,6 +1,9 @@
 package vdf
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 var benchDoc = NewDocument(
 	NewNode("AppState",
@@ -35,5 +38,55 @@ func BenchmarkMarshal(b *testing.B) {
 		if _, err := Marshal(benchDoc); err != nil {
 			b.Fatal(err)
 		}
+	}
+}
+
+func BenchmarkParseFixtures(b *testing.B) {
+	fixtures := []string{
+		"testdata/libraryfolders.vdf",
+		"testdata/config.vdf",
+		"testdata/loginusers.vdf",
+		"testdata/appmanifest_730.acf",
+		"testdata/appmanifest_570.acf",
+		"testdata/sample_keyvalues.cfg",
+	}
+	for _, path := range fixtures {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.Run(path, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				if _, err := Parse(data); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkMarshalFixtures(b *testing.B) {
+	fixtures := []string{
+		"testdata/libraryfolders.vdf",
+		"testdata/config.vdf",
+		"testdata/loginusers.vdf",
+		"testdata/appmanifest_730.acf",
+		"testdata/appmanifest_570.acf",
+		"testdata/sample_keyvalues.cfg",
+	}
+	for _, path := range fixtures {
+		doc, err := ParseFile(path)
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.Run(path, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				if _, err := Marshal(doc); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
 	}
 }

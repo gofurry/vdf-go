@@ -122,7 +122,7 @@
 
 ### v0.2.3 - Fuzz、Malformed Corpus 与真实样本硬化
 
-**Status:** Planned  
+**Status:** Completed  
 **Scope:** Stability / Testing / Security/Safety  
 **Goal:** 用更长 fuzz 和更多坏样本降低 parser 在真实输入下的崩溃、死循环和资源风险。
 
@@ -134,17 +134,21 @@
 
 #### Tasks
 
-- [ ] 运行更长时间 fuzz，例如 `go test -run=FuzzParse -fuzz=FuzzParse -fuzztime=1m` 或更长。
-- [ ] 将有价值的 fuzz 发现固化为普通回归测试。
-- [ ] 扩充 malformed fixtures：未闭合 quote、缺失 brace、孤立 brace、超长 token、深层嵌套、directive 边界。
-- [ ] 增加 benchmark 对比，观察真实 fixture 下 parse / marshal 分配变化。
-- [ ] 检查错误消息不会输出大段原始文件内容或敏感配置片段。
+- [x] 运行更长时间 fuzz，例如 `go test -run=FuzzParse -fuzz=FuzzParse -fuzztime=1m` 或更长。
+- [x] 将有价值的 fuzz 发现固化为普通回归测试。
+- [x] 扩充 malformed fixtures：未闭合 quote、缺失 brace、孤立 brace、超长 token、深层嵌套、directive 边界。
+- [x] 增加 benchmark 对比，观察真实 fixture 下 parse / marshal 分配变化。
+- [x] 检查错误消息不会输出大段原始文件内容或敏感配置片段。
 
 #### Acceptance Criteria
 
 - malformed 输入只返回错误，不 panic。
 - fuzz 结果中有价值样本被转化为稳定测试。
 - parser 限制行为有测试保护。
+
+#### Notes
+
+`v0.2.3` 增加了 malformed corpus、资源限制回归测试、错误消息脱敏测试，以及真实 fixture parse / marshal benchmark。已执行 1 分钟 fuzz；本轮未发现需要额外固化的新失败样本。
 
 ---
 
@@ -195,6 +199,6 @@
 - [x] KeyValues 风格 `.cfg` 有 fixture 和测试覆盖。
 - [x] 更多 `.vdf` / `.acf` / Steam 文本样本被纳入测试。
 - [x] GoDoc、CHANGELOG、中文文档和 release checklist 完成。
-- [ ] fuzz 和 malformed corpus 明显增强。
+- [x] fuzz 和 malformed corpus 明显增强。
 - [x] directive / condition token 策略清楚且有测试。
 - [ ] 核心包仍保持小 API、无 Steam 业务绑定、无危险自动文件读取。
