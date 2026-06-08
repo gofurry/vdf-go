@@ -23,8 +23,8 @@ small, documented, and covered by tests.
 - Added architecture documentation for repository layout and package boundaries.
 - Added `ParseReaderLimit` for bounded reader parsing.
 - Updated CI to run race and coverage checks.
-- Pinned mainline Staticcheck CI to `2025.1.1` and kept a scheduled latest
-  advisory job.
+- Pinned mainline Staticcheck CI to `2025.1.1` in a separate Go 1.24 toolchain
+  job while keeping Go 1.22 as the minimum-version test job.
 - Replaced the deprecated Staticcheck GitHub Action with direct `go install`
   invocations to avoid old `actions/cache` dependencies.
 - Updated `SECURITY.md` to refer to the latest pre-1.0 release line.
