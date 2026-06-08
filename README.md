@@ -149,3 +149,8 @@ Parsing and marshaling functions do not use package-level mutable state.
 or automatic include/base expansion.
 
 See [docs/compatibility.md](docs/compatibility.md) for details.
+
+## Chinese Documentation
+
+Chinese documentation is maintained under [docs/zh](docs/zh/README.md),
+including the active roadmap and Steam / Valve format compatibility notes.
