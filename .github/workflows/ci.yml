@@ -5,6 +5,8 @@ on:
     branches: [main, dev]
   pull_request:
     branches: [main, dev]
+  schedule:
+    - cron: "0 3 * * 1"
 
 jobs:
   test:
@@ -23,13 +25,38 @@ jobs:
       - name: Check formatting
         run: test -z "$(gofmt -l .)"
 
-      - name: Vet
-        run: go vet ./...
-
       - name: Test
         run: go test ./...
 
+      - name: Race test
+        run: go test -race ./...
+
+      - name: Coverage
+        run: go test -cover ./...
+
+      - name: Vet
+        run: go vet ./...
+
       - name: Staticcheck
-        uses: dominikh/staticcheck-action@v1
+        uses: dominikh/staticcheck-action@v1.2.0
+        with:
+          version: "2025.1.1"
+
+  staticcheck-latest:
+    name: Staticcheck latest advisory
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Staticcheck latest
+        uses: dominikh/staticcheck-action@v1.2.0
         with:
           version: latest

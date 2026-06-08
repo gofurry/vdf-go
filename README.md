@@ -2,6 +2,11 @@
 
 [中文 README](docs/zh/README.md)
 
+![License](https://img.shields.io/badge/License-MIT-6C757D?style=flat&color=3B82F6)
+![Release](https://img.shields.io/github/v/release/gofurry/vdf-go?style=flat&color=blue)
+![Go Version](https://img.shields.io/badge/Go-1.22%2B-00ADD8?style=flat&logo=go&logoColor=white)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gofurry/vdf-go)](https://goreportcard.com/report/github.com/gofurry/vdf-go)
+
 A small Go parser and toolkit for Valve Data Format (VDF / KeyValues) text files.
 
 `vdf-go` focuses on the generic text format used by Valve and Steam files such as
@@ -63,6 +68,7 @@ is a scalar value. Use `IsObject()` and `IsValue()` when the distinction matters
 doc, err := vdf.Parse(data)
 doc, err := vdf.ParseString(text)
 doc, err := vdf.ParseReader(reader)
+doc, err := vdf.ParseReaderLimit(reader, 1<<20)
 doc, err := vdf.ParseFile("appmanifest_730.acf")
 ```
 
@@ -78,6 +84,10 @@ doc, err := vdf.ParseString(input,
 	vdf.WithMaxNodes(1_000_000),
 )
 ```
+
+`ParseReader` reads the full reader into memory before parsing. For untrusted or
+potentially large readers, use `ParseReaderLimit` or wrap the reader with
+`io.LimitReader`.
 
 `#include` and `#base` are never executed and never read files. By default they
 are ignored. Use `WithPreserveDirectives(true)` to keep them as ordinary

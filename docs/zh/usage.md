@@ -32,6 +32,19 @@ fmt.Println(name)
 
 `ParseFile` 只读取传入的文件路径，不会自动展开 `#include` 或 `#base`。
 
+## 解析不可信 Reader
+
+`ParseReader` 会先把 reader 完整读入内存再解析。处理不可信输入或可能很大的输入时，使用 `ParseReaderLimit`：
+
+```go
+doc, err := vdf.ParseReaderLimit(reader, 1<<20)
+if err != nil {
+    panic(err)
+}
+```
+
+也可以在调用 parser 前自行使用 `io.LimitReader`。
+
 ## 重复 key 与顺序
 
 VDF / KeyValues 中同级 key 可能重复，顺序也可能有意义，所以 `vdf-go` 不使用 `map` 表示对象。

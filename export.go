@@ -72,6 +72,10 @@ func ParseReader(r io.Reader, opts ...Option) (*Document, error) {
 	return core.ParseReader(r, opts...)
 }
 
+func ParseReaderLimit(r io.Reader, maxBytes int64, opts ...Option) (*Document, error) {
+	return core.ParseReaderLimit(r, maxBytes, opts...)
+}
+
 func ParseFile(path string, opts ...Option) (*Document, error) {
 	return core.ParseFile(path, opts...)
 }

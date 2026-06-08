@@ -14,6 +14,11 @@ small, documented, and covered by tests.
 - Grouped fixtures into `testdata/valid`, `testdata/malformed`, and
   `testdata/unsupported`.
 - Added architecture documentation for repository layout and package boundaries.
+- Added `ParseReaderLimit` for bounded reader parsing.
+- Updated CI to run race and coverage checks.
+- Pinned mainline Staticcheck CI to `2025.1.1` and kept a scheduled latest
+  advisory job.
+- Updated `SECURITY.md` to refer to the latest pre-1.0 release line.
 
 ## v0.2.4 - Small AST Editing API
 

@@ -247,6 +247,26 @@ func TestParseReader(t *testing.T) {
 	}
 }
 
+func TestParseReaderLimit(t *testing.T) {
+	doc, err := ParseReaderLimit(strings.NewReader(`"k" "v"`), 7)
+	if err != nil {
+		t.Fatalf("ParseReaderLimit() error = %v", err)
+	}
+	if got := doc.First("k").Value; got != "v" {
+		t.Fatalf("value = %q", got)
+	}
+
+	if _, err := ParseReaderLimit(strings.NewReader(`"k" "v"`), 6); err == nil {
+		t.Fatalf("expected size limit error")
+	}
+	if _, err := ParseReaderLimit(strings.NewReader(`"k" "v"`), -1); err == nil {
+		t.Fatalf("expected negative limit error")
+	}
+	if _, err := ParseReaderLimit(strings.NewReader(``), 0); err != nil {
+		t.Fatalf("empty input with zero limit should parse: %v", err)
+	}
+}
+
 func TestFixtures(t *testing.T) {
 	tests := []struct {
 		path string

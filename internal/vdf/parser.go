@@ -6,6 +6,8 @@ import (
 	"os"
 )
 
+const maxInt64 = int64(^uint64(0) >> 1)
+
 // Parse parses VDF / KeyValues data.
 func Parse(data []byte, opts ...Option) (*Document, error) {
 	cfg := applyOptions(opts)
@@ -23,6 +25,28 @@ func ParseReader(r io.Reader, opts ...Option) (*Document, error) {
 	data, err := io.ReadAll(r)
 	if err != nil {
 		return nil, fmt.Errorf("vdf: read input: %w", err)
+	}
+	return Parse(data, opts...)
+}
+
+// ParseReaderLimit reads at most maxBytes from r and parses it.
+//
+// It returns an error if the reader contains more than maxBytes bytes. Use this
+// for untrusted or potentially large readers.
+func ParseReaderLimit(r io.Reader, maxBytes int64, opts ...Option) (*Document, error) {
+	if maxBytes < 0 {
+		return nil, fmt.Errorf("vdf: max bytes must be non-negative")
+	}
+	limit := maxBytes + 1
+	if maxBytes == maxInt64 {
+		limit = maxBytes
+	}
+	data, err := io.ReadAll(io.LimitReader(r, limit))
+	if err != nil {
+		return nil, fmt.Errorf("vdf: read input: %w", err)
+	}
+	if int64(len(data)) > maxBytes {
+		return nil, fmt.Errorf("vdf: input exceeds maximum size of %d bytes", maxBytes)
 	}
 	return Parse(data, opts...)
 }

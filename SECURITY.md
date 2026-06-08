@@ -2,8 +2,7 @@
 
 ## Supported Versions
 
-Security fixes are expected for the latest `v0.1.x` release while the project is
-pre-1.0.
+Security fixes are expected for the latest pre-1.0 release line.
 
 ## Parser Safety Boundary
 
@@ -13,6 +12,10 @@ explicit path passed to `ParseFile`.
 
 The parser includes configurable limits for nesting depth, token size, and node
 count. Callers that accept untrusted input should keep these limits enabled.
+
+`ParseReader` reads the full reader into memory before parsing. For untrusted or
+potentially large readers, use `ParseReaderLimit` or wrap the reader with
+`io.LimitReader` before parsing.
 
 ## Reporting Issues
 

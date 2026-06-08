@@ -21,6 +21,12 @@ This document describes the compatibility boundary for `vdf-go`.
 - Parser errors with line, column, and byte offset.
 - Stable readable marshal output.
 
+## Reader Size Limits
+
+`ParseReader` reads the full reader into memory before parsing. For untrusted or
+potentially large readers, use `ParseReaderLimit` or wrap the reader with
+`io.LimitReader`.
+
 ## Not Supported
 
 - Source / console command-style `.cfg` files, such as line-oriented `bind`,

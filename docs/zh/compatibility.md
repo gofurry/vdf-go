@@ -11,6 +11,10 @@
 
 当前 parser 已支持 quoted / unquoted key-value、嵌套对象、重复 key、顺序保留、`//` 注释、基础转义和带位置的错误。
 
+## Reader 大小限制
+
+`ParseReader` 会先把 reader 完整读入内存再解析。对于不可信输入或可能很大的 reader，请使用 `ParseReaderLimit`，或在调用 parser 前用 `io.LimitReader` 包装 reader。
+
 ## 格式支持矩阵
 
 | 格式 | 当前状态 | 说明 |

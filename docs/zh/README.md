@@ -58,6 +58,7 @@ type Node struct {
 doc, err := vdf.Parse(data)
 doc, err := vdf.ParseString(text)
 doc, err := vdf.ParseReader(reader)
+doc, err := vdf.ParseReaderLimit(reader, 1<<20)
 doc, err := vdf.ParseFile("appmanifest_730.acf")
 ```
 
@@ -72,6 +73,8 @@ doc, err := vdf.ParseString(input,
 	vdf.WithMaxNodes(1_000_000),
 )
 ```
+
+`ParseReader` 会先把 reader 完整读入内存再解析。如果输入来自不可信来源或可能很大，请使用 `ParseReaderLimit`，或在调用前用 `io.LimitReader` 包装 reader。
 
 `#include` 和 `#base` 永远不会被执行，也不会自动读取文件。默认会忽略它们；如果需要保留为普通 key/value node，可以使用 `WithPreserveDirectives(true)`。其他 `#...` key 会作为普通 key 解析。
 
