@@ -6,19 +6,19 @@ machine-specific paths, or private install metadata.
 
 ## Supported by the VDF / KeyValues parser
 
-- `*.vdf`: text VDF / KeyValues samples.
-- `*.acf`: Steam appmanifest-style KeyValues samples.
-- `sample_keyvalues.cfg`: a KeyValues-style `.cfg` sample.
+- `valid/*.vdf`: text VDF / KeyValues samples.
+- `valid/*.acf`: Steam appmanifest-style KeyValues samples.
+- `valid/sample_keyvalues.cfg`: a KeyValues-style `.cfg` sample.
 
 ## Intentionally unsupported by the VDF / KeyValues parser
 
-- `source_commands.cfg`: Source / console command-style config. This format is
-  line-oriented command text, not a VDF object tree.
+- `unsupported/source_commands.cfg`: Source / console command-style config.
+  This format is line-oriented command text, not a VDF object tree.
 
 ## Malformed corpus
 
 Malformed fixtures are intentionally invalid and should fail with ordinary
-parser errors:
+parser errors. They live under `malformed/` and cover:
 
 - missing closing braces;
 - unterminated quoted strings;

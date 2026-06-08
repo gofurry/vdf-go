@@ -178,3 +178,17 @@ including the active roadmap and Steam / Valve format compatibility notes.
 
 Release preparation steps are documented in
 [docs/release-checklist.md](docs/release-checklist.md).
+
+## Project Layout
+
+The public import path remains the module root:
+
+```go
+import vdf "github.com/gofurry/vdf-go"
+```
+
+Implementation files live under `internal/vdf`, while the root package exposes a
+small stable facade. Fixtures are grouped under `testdata/valid`,
+`testdata/malformed`, and `testdata/unsupported`.
+
+See [docs/architecture.md](docs/architecture.md) for details.

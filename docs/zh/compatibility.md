@@ -26,8 +26,8 @@
 
 Steam / Valve 生态里存在大量 `.cfg` 文件，但 `.cfg` 不是单一格式。
 
-- **KeyValues 风格 `.cfg`**：属于当前 `vdf-go` 的支持范围。测试样本见 `testdata/sample_keyvalues.cfg`。
-- **Source / console command 风格 `.cfg`**：不属于当前 VDF / KeyValues parser 范围。样本见 `testdata/source_commands.cfg`，仅用于说明边界，不作为 parse 成功 fixture。
+- **KeyValues 风格 `.cfg`**：属于当前 `vdf-go` 的支持范围。测试样本见 `testdata/valid/sample_keyvalues.cfg`。
+- **Source / console command 风格 `.cfg`**：不属于当前 VDF / KeyValues parser 范围。样本见 `testdata/unsupported/source_commands.cfg`，仅用于说明边界，不作为 parse 成功 fixture。
 
 因此，文档中应避免写“完整支持 `.cfg`”。更准确的说法是：
 
@@ -37,13 +37,13 @@ Steam / Valve 生态里存在大量 `.cfg` 文件，但 `.cfg` 不是单一格�
 
 当前测试样本覆盖：
 
-- `testdata/libraryfolders.vdf`
-- `testdata/config.vdf`
-- `testdata/loginusers.vdf`
-- `testdata/appmanifest_730.acf`
-- `testdata/appmanifest_570.acf`
-- `testdata/sample_keyvalues.cfg`
-- `testdata/source_commands.cfg`，仅作为不支持边界样本
+- `testdata/valid/libraryfolders.vdf`
+- `testdata/valid/config.vdf`
+- `testdata/valid/loginusers.vdf`
+- `testdata/valid/appmanifest_730.acf`
+- `testdata/valid/appmanifest_570.acf`
+- `testdata/valid/sample_keyvalues.cfg`
+- `testdata/unsupported/source_commands.cfg`，仅作为不支持边界样本
 
 ## 保持不变的边界
 

@@ -43,12 +43,12 @@ func BenchmarkMarshal(b *testing.B) {
 
 func BenchmarkParseFixtures(b *testing.B) {
 	fixtures := []string{
-		"testdata/libraryfolders.vdf",
-		"testdata/config.vdf",
-		"testdata/loginusers.vdf",
-		"testdata/appmanifest_730.acf",
-		"testdata/appmanifest_570.acf",
-		"testdata/sample_keyvalues.cfg",
+		"../../testdata/valid/libraryfolders.vdf",
+		"../../testdata/valid/config.vdf",
+		"../../testdata/valid/loginusers.vdf",
+		"../../testdata/valid/appmanifest_730.acf",
+		"../../testdata/valid/appmanifest_570.acf",
+		"../../testdata/valid/sample_keyvalues.cfg",
 	}
 	for _, path := range fixtures {
 		data, err := os.ReadFile(path)
@@ -68,12 +68,12 @@ func BenchmarkParseFixtures(b *testing.B) {
 
 func BenchmarkMarshalFixtures(b *testing.B) {
 	fixtures := []string{
-		"testdata/libraryfolders.vdf",
-		"testdata/config.vdf",
-		"testdata/loginusers.vdf",
-		"testdata/appmanifest_730.acf",
-		"testdata/appmanifest_570.acf",
-		"testdata/sample_keyvalues.cfg",
+		"../../testdata/valid/libraryfolders.vdf",
+		"../../testdata/valid/config.vdf",
+		"../../testdata/valid/loginusers.vdf",
+		"../../testdata/valid/appmanifest_730.acf",
+		"../../testdata/valid/appmanifest_570.acf",
+		"../../testdata/valid/sample_keyvalues.cfg",
 	}
 	for _, path := range fixtures {
 		doc, err := ParseFile(path)

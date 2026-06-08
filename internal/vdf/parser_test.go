@@ -252,15 +252,15 @@ func TestFixtures(t *testing.T) {
 		path string
 		key  string
 	}{
-		{"testdata/simple.vdf", "root"},
-		{"testdata/nested.vdf", "root"},
-		{"testdata/duplicate_keys.vdf", "root"},
-		{"testdata/libraryfolders.vdf", "libraryfolders"},
-		{"testdata/config.vdf", "InstallConfigStore"},
-		{"testdata/loginusers.vdf", "users"},
-		{"testdata/appmanifest_730.acf", "AppState"},
-		{"testdata/appmanifest_570.acf", "AppState"},
-		{"testdata/sample_keyvalues.cfg", "SampleConfig"},
+		{"../../testdata/valid/simple.vdf", "root"},
+		{"../../testdata/valid/nested.vdf", "root"},
+		{"../../testdata/valid/duplicate_keys.vdf", "root"},
+		{"../../testdata/valid/libraryfolders.vdf", "libraryfolders"},
+		{"../../testdata/valid/config.vdf", "InstallConfigStore"},
+		{"../../testdata/valid/loginusers.vdf", "users"},
+		{"../../testdata/valid/appmanifest_730.acf", "AppState"},
+		{"../../testdata/valid/appmanifest_570.acf", "AppState"},
+		{"../../testdata/valid/sample_keyvalues.cfg", "SampleConfig"},
 	}
 	for _, tt := range tests {
 		doc, err := ParseFile(tt.path)
@@ -272,7 +272,7 @@ func TestFixtures(t *testing.T) {
 		}
 	}
 
-	doc, err := ParseFile("testdata/duplicate_keys.vdf")
+	doc, err := ParseFile("../../testdata/valid/duplicate_keys.vdf")
 	if err != nil {
 		t.Fatalf("ParseFile(duplicate) error = %v", err)
 	}
@@ -280,7 +280,7 @@ func TestFixtures(t *testing.T) {
 		t.Fatalf("fixture duplicate count = %d", got)
 	}
 
-	app, err := ParseFile("testdata/appmanifest_730.acf")
+	app, err := ParseFile("../../testdata/valid/appmanifest_730.acf")
 	if err != nil {
 		t.Fatalf("ParseFile(appmanifest) error = %v", err)
 	}
@@ -288,7 +288,7 @@ func TestFixtures(t *testing.T) {
 		t.Fatalf("missing depot manifest")
 	}
 
-	cfg, err := ParseFile("testdata/sample_keyvalues.cfg")
+	cfg, err := ParseFile("../../testdata/valid/sample_keyvalues.cfg")
 	if err != nil {
 		t.Fatalf("ParseFile(sample_keyvalues.cfg) error = %v", err)
 	}
@@ -298,7 +298,7 @@ func TestFixtures(t *testing.T) {
 }
 
 func TestCommandStyleCFGIsNotVDFScope(t *testing.T) {
-	data, err := os.ReadFile("testdata/source_commands.cfg")
+	data, err := os.ReadFile("../../testdata/unsupported/source_commands.cfg")
 	if err != nil {
 		t.Fatalf("ReadFile(source_commands.cfg) error = %v", err)
 	}
@@ -312,11 +312,11 @@ func TestCommandStyleCFGIsNotVDFScope(t *testing.T) {
 
 func TestMalformedFixtures(t *testing.T) {
 	for _, path := range []string{
-		"testdata/malformed_missing_brace.vdf",
-		"testdata/malformed_unterminated_quote.vdf",
-		"testdata/malformed_unexpected_closing_brace.vdf",
-		"testdata/malformed_directive_missing_value.vdf",
-		"testdata/malformed_unterminated_condition.vdf",
+		"../../testdata/malformed/malformed_missing_brace.vdf",
+		"../../testdata/malformed/malformed_unterminated_quote.vdf",
+		"../../testdata/malformed/malformed_unexpected_closing_brace.vdf",
+		"../../testdata/malformed/malformed_directive_missing_value.vdf",
+		"../../testdata/malformed/malformed_unterminated_condition.vdf",
 	} {
 		_, err := ParseFile(path)
 		if err == nil {
@@ -336,12 +336,12 @@ func TestMalformedResourceLimitFixtures(t *testing.T) {
 		want string
 	}{
 		{
-			path: "testdata/malformed_deep_nesting.vdf",
+			path: "../../testdata/malformed/malformed_deep_nesting.vdf",
 			opts: []Option{WithMaxDepth(3)},
 			want: "maximum depth exceeded",
 		},
 		{
-			path: "testdata/malformed_token_too_large.vdf",
+			path: "../../testdata/malformed/malformed_token_too_large.vdf",
 			opts: []Option{WithMaxTokenBytes(16)},
 			want: "token exceeds maximum size",
 		},
@@ -389,7 +389,7 @@ func TestParseErrorsDoNotEchoSensitiveInput(t *testing.T) {
 }
 
 func TestParseFileReadError(t *testing.T) {
-	path := "testdata/does-not-exist.vdf"
+	path := "../../testdata/does-not-exist.vdf"
 	if _, err := ParseFile(path); err == nil || !errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("ParseFile(%q) error = %v", path, err)
 	}

@@ -5,5 +5,6 @@
 - [路线图](roadmap.md)
 - [兼容性说明](compatibility.md)
 - [使用说明](usage.md)
+- [架构与目录结构](architecture.md)
 
 英文主文档仍保留在仓库根目录的 `README.md`，中文文档优先记录演进方向、兼容边界和 Steam / Valve 生态里的格式差异。

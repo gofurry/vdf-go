@@ -7,7 +7,13 @@ small, documented, and covered by tests.
 
 ## Unreleased
 
-No changes yet.
+### Changed
+
+- Moved implementation files behind `internal/vdf` while preserving the public
+  module-root import path.
+- Grouped fixtures into `testdata/valid`, `testdata/malformed`, and
+  `testdata/unsupported`.
+- Added architecture documentation for repository layout and package boundaries.
 
 ## v0.2.4 - Small AST Editing API
 
