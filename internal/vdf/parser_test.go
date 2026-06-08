@@ -272,15 +272,29 @@ func TestFixtures(t *testing.T) {
 		path string
 		key  string
 	}{
-		{"../../testdata/valid/simple.vdf", "root"},
-		{"../../testdata/valid/nested.vdf", "root"},
-		{"../../testdata/valid/duplicate_keys.vdf", "root"},
-		{"../../testdata/valid/libraryfolders.vdf", "libraryfolders"},
-		{"../../testdata/valid/config.vdf", "InstallConfigStore"},
-		{"../../testdata/valid/loginusers.vdf", "users"},
-		{"../../testdata/valid/appmanifest_730.acf", "AppState"},
-		{"../../testdata/valid/appmanifest_570.acf", "AppState"},
-		{"../../testdata/valid/sample_keyvalues.cfg", "SampleConfig"},
+		{"../../testdata/valid/source-keyvalues/simple.vdf", "root"},
+		{"../../testdata/valid/source-keyvalues/nested.vdf", "root"},
+		{"../../testdata/valid/source-keyvalues/duplicate_keys.vdf", "root"},
+		{"../../testdata/valid/source-keyvalues/keyvalues_cfg.cfg", "SampleConfig"},
+		{"../../testdata/valid/source-keyvalues/gameinfo.txt", "GameInfo"},
+		{"../../testdata/valid/source-keyvalues/material_basic.vmt", "LightmappedGeneric"},
+		{"../../testdata/valid/source-keyvalues/resource_menu.res", "Resource/UI/MainMenu.res"},
+		{"../../testdata/valid/source-keyvalues/scripts_sounds.txt", "Weapon.SampleFire"},
+		{"../../testdata/valid/steam-client/libraryfolders_fixture.vdf", "libraryfolders"},
+		{"../../testdata/valid/steam-client/config_fixture.vdf", "InstallConfigStore"},
+		{"../../testdata/valid/steam-client/loginusers_fixture.vdf", "users"},
+		{"../../testdata/valid/steam-client/libraryfolders_steamapps_sanitized.vdf", "libraryfolders"},
+		{"../../testdata/valid/steam-client/libraryfolders_config_sanitized.vdf", "libraryfolders"},
+		{"../../testdata/valid/steam-client/config_sanitized.vdf", "InstallConfigStore"},
+		{"../../testdata/valid/steam-client/dialog_config_sanitized.vdf", "UserConfigData"},
+		{"../../testdata/valid/steam-client/loginusers_sanitized.vdf", "users"},
+		{"../../testdata/valid/appmanifest/appmanifest_730.acf", "AppState"},
+		{"../../testdata/valid/appmanifest/appmanifest_570.acf", "AppState"},
+		{"../../testdata/valid/directives/include_ignored.vdf", "root"},
+		{"../../testdata/valid/directives/base_ignored.vdf", "root"},
+		{"../../testdata/valid/directives/preserve_directives.vdf", "root"},
+		{"../../testdata/valid/conditions/win32_condition.vdf", "root"},
+		{"../../testdata/valid/conditions/mixed_conditions.vdf", "root"},
 	}
 	for _, tt := range tests {
 		doc, err := ParseFile(tt.path)
@@ -292,7 +306,7 @@ func TestFixtures(t *testing.T) {
 		}
 	}
 
-	doc, err := ParseFile("../../testdata/valid/duplicate_keys.vdf")
+	doc, err := ParseFile("../../testdata/valid/source-keyvalues/duplicate_keys.vdf")
 	if err != nil {
 		t.Fatalf("ParseFile(duplicate) error = %v", err)
 	}
@@ -300,7 +314,7 @@ func TestFixtures(t *testing.T) {
 		t.Fatalf("fixture duplicate count = %d", got)
 	}
 
-	app, err := ParseFile("../../testdata/valid/appmanifest_730.acf")
+	app, err := ParseFile("../../testdata/valid/appmanifest/appmanifest_730.acf")
 	if err != nil {
 		t.Fatalf("ParseFile(appmanifest) error = %v", err)
 	}
@@ -308,12 +322,75 @@ func TestFixtures(t *testing.T) {
 		t.Fatalf("missing depot manifest")
 	}
 
-	cfg, err := ParseFile("../../testdata/valid/sample_keyvalues.cfg")
+	cfg, err := ParseFile("../../testdata/valid/source-keyvalues/keyvalues_cfg.cfg")
 	if err != nil {
 		t.Fatalf("ParseFile(sample_keyvalues.cfg) error = %v", err)
 	}
 	if got := cfg.Path("SampleConfig", "Profile", "Mode").Value; got != "safe" {
 		t.Fatalf("cfg mode = %q", got)
+	}
+}
+
+func TestSanitizedSteamClientFixtures(t *testing.T) {
+	config, err := ParseFile("../../testdata/valid/steam-client/config_sanitized.vdf")
+	if err != nil {
+		t.Fatalf("ParseFile(config_sanitized.vdf) error = %v", err)
+	}
+	if got := config.Path("InstallConfigStore", "Software", "Valve", "Steam", "cip").Value; got != "203.0.113.10" {
+		t.Fatalf("sanitized cip = %q", got)
+	}
+	if got := config.Path("InstallConfigStore", "Software", "Valve", "Steam", "Accounts", "sample_account", "SteamID").Value; got != "76561198000000000" {
+		t.Fatalf("sanitized account SteamID = %q", got)
+	}
+	if node := config.Path("InstallConfigStore", "Software", "Valve", "Steam", "CMWebSocket", "cm1.example.steamserver.net:443"); node == nil || !node.IsObject() {
+		t.Fatalf("missing sanitized CMWebSocket entry")
+	}
+
+	login, err := ParseFile("../../testdata/valid/steam-client/loginusers_sanitized.vdf")
+	if err != nil {
+		t.Fatalf("ParseFile(loginusers_sanitized.vdf) error = %v", err)
+	}
+	users := login.First("users")
+	if users == nil || len(users.Children) != 2 {
+		t.Fatalf("sanitized login users count = %d", len(users.Children))
+	}
+	if got := login.Path("users", "76561198000000000", "AccountName").Value; got != "sample_account" {
+		t.Fatalf("sanitized login AccountName = %q", got)
+	}
+	if got := login.Path("users", "76561198000000001", "PersonaName").Value; got != "Sample Alt" {
+		t.Fatalf("sanitized login PersonaName = %q", got)
+	}
+
+	library, err := ParseFile("../../testdata/valid/steam-client/libraryfolders_steamapps_sanitized.vdf")
+	if err != nil {
+		t.Fatalf("ParseFile(libraryfolders_steamapps_sanitized.vdf) error = %v", err)
+	}
+	if got := library.Path("libraryfolders", "0", "path").Value; got != `C:\Program Files (x86)\Steam` {
+		t.Fatalf("sanitized library path = %q", got)
+	}
+	if !library.Path("libraryfolders", "0", "apps").IsObject() {
+		t.Fatalf("sanitized library apps should be object")
+	}
+}
+
+func TestDirectiveFixtures(t *testing.T) {
+	doc, err := ParseFile("../../testdata/valid/directives/preserve_directives.vdf")
+	if err != nil {
+		t.Fatalf("ParseFile(preserve_directives.vdf) error = %v", err)
+	}
+	if doc.First("#include") != nil {
+		t.Fatalf("directive should be ignored by default")
+	}
+
+	doc, err = ParseFile("../../testdata/valid/directives/preserve_directives.vdf", WithPreserveDirectives(true))
+	if err != nil {
+		t.Fatalf("ParseFile(preserve_directives.vdf preserve) error = %v", err)
+	}
+	if got := doc.First("#include").Value; got != "shared_defaults.vdf" {
+		t.Fatalf("include directive = %q", got)
+	}
+	if got := doc.First("root").First("#base").Value; got != "base_defaults.vdf" {
+		t.Fatalf("base directive = %q", got)
 	}
 }
 

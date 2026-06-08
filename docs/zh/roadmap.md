@@ -39,6 +39,7 @@
 - [x] 为 KeyValues 风格 `.cfg` 增加 parse fixtures 和回归测试。
 - [x] 为命令式 `.cfg` 增加“不属于当前 VDF parser 范围”的文档说明。
 - [x] 扩充 `.vdf` / `.acf` fixture，包括 `config.vdf`、`loginusers.vdf`、更多 `appmanifest_*.acf`。
+- [x] 将本地真实 Steam 客户端文件脱敏后纳入 `steam-client` fixture 分类，包括 `libraryfolders.vdf`、`config.vdf`、`DialogConfig.vdf` 和 `loginusers.vdf`。
 - [x] 更新 `docs/zh/compatibility.md`，维护格式支持矩阵。
 
 #### Acceptance Criteria
@@ -137,6 +138,7 @@
 - [x] 运行更长时间 fuzz，例如 `go test -run=FuzzParse -fuzz=FuzzParse -fuzztime=1m` 或更长。
 - [x] 将有价值的 fuzz 发现固化为普通回归测试。
 - [x] 扩充 malformed fixtures：未闭合 quote、缺失 brace、孤立 brace、超长 token、深层嵌套、directive 边界。
+- [x] 扩充真实边界样本分类：Steam client、appmanifest、Source KeyValues、directive、condition 和 unsupported notes。
 - [x] 增加 benchmark 对比，观察真实 fixture 下 parse / marshal 分配变化。
 - [x] 检查错误消息不会输出大段原始文件内容或敏感配置片段。
 

@@ -1,0 +1,5 @@
+"root"
+{
+	#base "base_defaults.vdf"
+	"name"	"base ignored by default"
+}

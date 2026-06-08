@@ -2,6 +2,9 @@
 
 This document describes the compatibility boundary for `vdf-go`.
 
+Valve's public KeyValues reference is available at
+<https://developer.valvesoftware.com/wiki/KeyValues>.
+
 ## Supported
 
 - Text VDF / Valve KeyValues files.

@@ -11,6 +11,9 @@
 
 当前 parser 已支持 quoted / unquoted key-value、嵌套对象、重复 key、顺序保留、`//` 注释、基础转义和带位置的错误。
 
+Valve 官方 KeyValues 参考文档见：
+<https://developer.valvesoftware.com/wiki/KeyValues>。
+
 ## Reader 大小限制
 
 `ParseReader` 会先把 reader 完整读入内存再解析。对于不可信输入或可能很大的 reader，请使用 `ParseReaderLimit`，或在调用 parser 前用 `io.LimitReader` 包装 reader。
@@ -30,7 +33,7 @@
 
 Steam / Valve 生态里存在大量 `.cfg` 文件，但 `.cfg` 不是单一格式。
 
-- **KeyValues 风格 `.cfg`**：属于当前 `vdf-go` 的支持范围。测试样本见 `testdata/valid/sample_keyvalues.cfg`。
+- **KeyValues 风格 `.cfg`**：属于当前 `vdf-go` 的支持范围。测试样本见 `testdata/valid/source-keyvalues/keyvalues_cfg.cfg`。
 - **Source / console command 风格 `.cfg`**：不属于当前 VDF / KeyValues parser 范围。样本见 `testdata/unsupported/source_commands.cfg`，仅用于说明边界，不作为 parse 成功 fixture。
 
 因此，文档中应避免写“完整支持 `.cfg`”。更准确的说法是：
@@ -41,12 +44,20 @@ Steam / Valve 生态里存在大量 `.cfg` 文件，但 `.cfg` 不是单一格�
 
 当前测试样本覆盖：
 
-- `testdata/valid/libraryfolders.vdf`
-- `testdata/valid/config.vdf`
-- `testdata/valid/loginusers.vdf`
-- `testdata/valid/appmanifest_730.acf`
-- `testdata/valid/appmanifest_570.acf`
-- `testdata/valid/sample_keyvalues.cfg`
+- `testdata/valid/steam-client/libraryfolders_steamapps_sanitized.vdf`
+- `testdata/valid/steam-client/libraryfolders_config_sanitized.vdf`
+- `testdata/valid/steam-client/config_sanitized.vdf`
+- `testdata/valid/steam-client/dialog_config_sanitized.vdf`
+- `testdata/valid/steam-client/loginusers_sanitized.vdf`
+- `testdata/valid/appmanifest/appmanifest_730.acf`
+- `testdata/valid/appmanifest/appmanifest_570.acf`
+- `testdata/valid/source-keyvalues/keyvalues_cfg.cfg`
+- `testdata/valid/source-keyvalues/gameinfo.txt`
+- `testdata/valid/source-keyvalues/material_basic.vmt`
+- `testdata/valid/source-keyvalues/resource_menu.res`
+- `testdata/valid/source-keyvalues/scripts_sounds.txt`
+- `testdata/valid/directives/preserve_directives.vdf`
+- `testdata/valid/conditions/mixed_conditions.vdf`
 - `testdata/unsupported/source_commands.cfg`，仅作为不支持边界样本
 
 ## 保持不变的边界

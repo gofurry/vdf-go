@@ -189,6 +189,7 @@ See [docs/compatibility.md](docs/compatibility.md) for details.
 - [Architecture](docs/architecture.md)
 - [Roadmap](docs/roadmap.md)
 - [Release checklist](docs/release-checklist.md)
+- [Valve KeyValues documentation](https://developer.valvesoftware.com/wiki/KeyValues)
 - [Chinese README](docs/zh/README.md)
 
 ## Project Layout
@@ -200,7 +201,9 @@ import vdf "github.com/gofurry/vdf-go"
 ```
 
 Implementation files live under `internal/vdf`, while the root package exposes a
-small stable facade. Fixtures are grouped under `testdata/valid`,
-`testdata/malformed`, and `testdata/unsupported`.
+small stable facade. Fixtures are grouped under `testdata/valid/steam-client`,
+`testdata/valid/appmanifest`, `testdata/valid/source-keyvalues`,
+`testdata/valid/directives`, `testdata/valid/conditions`, `testdata/malformed`,
+and `testdata/unsupported`.
 
 See [docs/architecture.md](docs/architecture.md) for details.

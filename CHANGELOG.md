@@ -11,8 +11,15 @@ small, documented, and covered by tests.
 
 - Moved implementation files behind `internal/vdf` while preserving the public
   module-root import path.
-- Grouped fixtures into `testdata/valid`, `testdata/malformed`, and
-  `testdata/unsupported`.
+- Grouped fixtures into focused `testdata/valid` subdirectories for Steam
+  client files, appmanifests, Source KeyValues text files, directives, and
+  conditions.
+- Added sanitized real Steam client samples from local `libraryfolders.vdf`,
+  `config.vdf`, `DialogConfig.vdf`, and `loginusers.vdf` files.
+- Added Source-style KeyValues boundary samples for `gameinfo.txt`, `.vmt`,
+  `.res`, soundscript-style `.txt`, directives, and condition tokens.
+- Added Valve's public KeyValues documentation link to README and compatibility
+  docs.
 - Added architecture documentation for repository layout and package boundaries.
 - Added `ParseReaderLimit` for bounded reader parsing.
 - Updated CI to run race and coverage checks.

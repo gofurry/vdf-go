@@ -12,7 +12,12 @@
 ├── internal/
 │   └── vdf/               # parser、encoder、AST、options、errors、editing 实现和测试
 ├── testdata/
-│   ├── valid/             # 支持的 VDF / ACF / KeyValues 风格 CFG fixtures
+│   ├── valid/             # 支持的 Steam / Source 文本 KeyValues fixtures
+│   │   ├── steam-client/
+│   │   ├── appmanifest/
+│   │   ├── source-keyvalues/
+│   │   ├── directives/
+│   │   └── conditions/
 │   ├── malformed/         # parser hardening 的坏样本
 │   └── unsupported/       # 明确不支持的格式边界样本
 ├── examples/              # 可运行示例
@@ -41,7 +46,11 @@ github.com/gofurry/vdf-go/vdf
 
 ## Fixture 分类策略
 
-- `testdata/valid`：当前 parser 支持的文本格式。
+- `testdata/valid/steam-client`：脱敏后的真实 Steam client 文本结构。
+- `testdata/valid/appmanifest`：Steam appmanifest `.acf` 结构。
+- `testdata/valid/source-keyvalues`：Source / Valve KeyValues 风格文本文件。
+- `testdata/valid/directives`：`#include` / `#base` 行为样本。
+- `testdata/valid/conditions`：condition token 行为样本。
 - `testdata/malformed`：必须安全失败的坏输入。
 - `testdata/unsupported`：用于说明边界的非目标格式。
 

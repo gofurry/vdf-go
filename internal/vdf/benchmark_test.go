@@ -43,12 +43,13 @@ func BenchmarkMarshal(b *testing.B) {
 
 func BenchmarkParseFixtures(b *testing.B) {
 	fixtures := []string{
-		"../../testdata/valid/libraryfolders.vdf",
-		"../../testdata/valid/config.vdf",
-		"../../testdata/valid/loginusers.vdf",
-		"../../testdata/valid/appmanifest_730.acf",
-		"../../testdata/valid/appmanifest_570.acf",
-		"../../testdata/valid/sample_keyvalues.cfg",
+		"../../testdata/valid/steam-client/libraryfolders_steamapps_sanitized.vdf",
+		"../../testdata/valid/steam-client/config_sanitized.vdf",
+		"../../testdata/valid/steam-client/loginusers_sanitized.vdf",
+		"../../testdata/valid/appmanifest/appmanifest_730.acf",
+		"../../testdata/valid/appmanifest/appmanifest_570.acf",
+		"../../testdata/valid/source-keyvalues/keyvalues_cfg.cfg",
+		"../../testdata/valid/source-keyvalues/gameinfo.txt",
 	}
 	for _, path := range fixtures {
 		data, err := os.ReadFile(path)
@@ -68,12 +69,13 @@ func BenchmarkParseFixtures(b *testing.B) {
 
 func BenchmarkMarshalFixtures(b *testing.B) {
 	fixtures := []string{
-		"../../testdata/valid/libraryfolders.vdf",
-		"../../testdata/valid/config.vdf",
-		"../../testdata/valid/loginusers.vdf",
-		"../../testdata/valid/appmanifest_730.acf",
-		"../../testdata/valid/appmanifest_570.acf",
-		"../../testdata/valid/sample_keyvalues.cfg",
+		"../../testdata/valid/steam-client/libraryfolders_steamapps_sanitized.vdf",
+		"../../testdata/valid/steam-client/config_sanitized.vdf",
+		"../../testdata/valid/steam-client/loginusers_sanitized.vdf",
+		"../../testdata/valid/appmanifest/appmanifest_730.acf",
+		"../../testdata/valid/appmanifest/appmanifest_570.acf",
+		"../../testdata/valid/source-keyvalues/keyvalues_cfg.cfg",
+		"../../testdata/valid/source-keyvalues/gameinfo.txt",
 	}
 	for _, path := range fixtures {
 		doc, err := ParseFile(path)

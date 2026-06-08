@@ -13,7 +13,12 @@ to evolve behind an internal boundary.
 ├── internal/
 │   └── vdf/               # parser, encoder, AST, options, errors, editing, tests
 ├── testdata/
-│   ├── valid/             # supported VDF / ACF / KeyValues-style CFG fixtures
+│   ├── valid/             # supported Steam / Source text KeyValues fixtures
+│   │   ├── steam-client/
+│   │   ├── appmanifest/
+│   │   ├── source-keyvalues/
+│   │   ├── directives/
+│   │   └── conditions/
 │   ├── malformed/         # invalid inputs for parser hardening
 │   └── unsupported/       # documented non-goals and boundary samples
 ├── examples/              # runnable examples
@@ -42,7 +47,11 @@ keeps the shorter module-root import path.
 
 Fixtures should stay small, sanitized, and categorized:
 
-- `testdata/valid`: supported text formats;
+- `testdata/valid/steam-client`: sanitized real-world Steam client shapes;
+- `testdata/valid/appmanifest`: Steam appmanifest `.acf` shapes;
+- `testdata/valid/source-keyvalues`: Source / Valve KeyValues-style text files;
+- `testdata/valid/directives`: `#include` / `#base` behavior samples;
+- `testdata/valid/conditions`: condition-token behavior samples;
 - `testdata/malformed`: invalid inputs that must fail safely;
 - `testdata/unsupported`: examples that document format boundaries.
 

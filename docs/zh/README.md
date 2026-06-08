@@ -163,6 +163,7 @@ parse 和 marshal 函数不使用 package-level mutable state。
 - [架构与目录结构](architecture.md)
 - [路线图](roadmap.md)
 - [发布检查清单](../release-checklist.md)
+- [Valve KeyValues 官方文档](https://developer.valvesoftware.com/wiki/KeyValues)
 
 ## 项目结构
 
@@ -172,6 +173,6 @@ parse 和 marshal 函数不使用 package-level mutable state。
 import vdf "github.com/gofurry/vdf-go"
 ```
 
-实现文件位于 `internal/vdf`，根包通过小型稳定 facade 暴露 API。Fixtures 按 `testdata/valid`、`testdata/malformed` 和 `testdata/unsupported` 分类。
+实现文件位于 `internal/vdf`，根包通过小型稳定 facade 暴露 API。Fixtures 按 `testdata/valid/steam-client`、`testdata/valid/appmanifest`、`testdata/valid/source-keyvalues`、`testdata/valid/directives`、`testdata/valid/conditions`、`testdata/malformed` 和 `testdata/unsupported` 分类。
 
 详细说明见 [架构与目录结构](architecture.md)。

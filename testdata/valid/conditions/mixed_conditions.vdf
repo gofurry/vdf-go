@@ -1,0 +1,6 @@
+"root"
+{
+	"windows"	"kept" [$WIN32]
+	"linux"	"kept" [$LINUX]
+	"mac"	"kept" [$OSX]
+}

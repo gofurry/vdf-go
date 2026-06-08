@@ -1,0 +1,25 @@
+"users"
+{
+	"76561198000000000"
+	{
+		"AccountName"	"sample_account"
+		"PersonaName"	"Sample Alt"
+		"RememberPassword"	"1"
+		"WantsOfflineMode"	"0"
+		"SkipOfflineModeWarning"	"0"
+		"AllowAutoLogin"	"0"
+		"MostRecent"	"0"
+		"Timestamp"	"1700000000"
+	}
+	"76561198000000001"
+	{
+		"AccountName"	"sample_alt"
+		"PersonaName"	"Sample Alt"
+		"RememberPassword"	"1"
+		"WantsOfflineMode"	"0"
+		"SkipOfflineModeWarning"	"0"
+		"AllowAutoLogin"	"1"
+		"MostRecent"	"1"
+		"Timestamp"	"1700000000"
+	}
+}

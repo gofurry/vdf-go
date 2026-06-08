@@ -1,0 +1,6 @@
+#include "shared_defaults.vdf"
+"root"
+{
+	#base "base_defaults.vdf"
+	"name"	"preserve directives sample"
+}
