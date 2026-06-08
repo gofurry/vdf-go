@@ -159,3 +159,6 @@ See [docs/compatibility.md](docs/compatibility.md) for details.
 
 Chinese documentation is maintained under [docs/zh](docs/zh/README.md),
 including the active roadmap and Steam / Valve format compatibility notes.
+
+Release preparation steps are documented in
+[docs/release-checklist.md](docs/release-checklist.md).

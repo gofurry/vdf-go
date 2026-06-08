@@ -88,7 +88,7 @@
 
 ### v0.2.2 - GoDoc、中文文档与发布卫生
 
-**Status:** Planned  
+**Status:** Completed  
 **Scope:** Documentation / CI/Release / Developer-facing  
 **Goal:** 把库从“能用”提升到“适合公开试用和持续维护”。
 
@@ -101,18 +101,22 @@
 
 #### Tasks
 
-- [ ] 增加 `doc.go`，提供 package-level GoDoc 和最小示例。
-- [ ] 增加 GoDoc example tests，覆盖 parse、query、marshal。
-- [ ] 增加 `CHANGELOG.md`，记录 `v0.1.x` 基础能力和 `v0.2.x` 计划。
-- [ ] 在 `docs/zh/` 持续维护中文 roadmap、兼容性说明和使用说明。
-- [ ] 增加 release checklist，明确 tag、测试、fuzz、文档更新步骤。
-- [ ] 更新 README，链接中文文档入口。
+- [x] 增加 `doc.go`，提供 package-level GoDoc 和最小示例。
+- [x] 增加 GoDoc example tests，覆盖 parse、query、marshal。
+- [x] 增加 `CHANGELOG.md`，记录 `v0.1.x` 基础能力和 `v0.2.x` 计划。
+- [x] 在 `docs/zh/` 持续维护中文 roadmap、兼容性说明和使用说明。
+- [x] 增加 release checklist，明确 tag、测试、fuzz、文档更新步骤。
+- [x] 更新 README，链接中文文档入口。
 
 #### Acceptance Criteria
 
 - pkg.go.dev 第一屏能清楚说明库的定位和边界。
 - 中文文档集中在 `docs/zh/`。
 - release 前检查项明确，不依赖口头记忆。
+
+#### Notes
+
+`v0.2.2` 补齐了 `doc.go`、GoDoc example tests、`CHANGELOG.md`、中文使用说明和 release checklist。后续 public API 变化都应同步更新 GoDoc、README、中文文档和 changelog。
 
 ---
 
@@ -190,7 +194,7 @@
 - [x] `.cfg` 兼容边界被明确分类和记录。
 - [x] KeyValues 风格 `.cfg` 有 fixture 和测试覆盖。
 - [x] 更多 `.vdf` / `.acf` / Steam 文本样本被纳入测试。
-- [ ] GoDoc、CHANGELOG、中文文档和 release checklist 完成。
+- [x] GoDoc、CHANGELOG、中文文档和 release checklist 完成。
 - [ ] fuzz 和 malformed corpus 明显增强。
 - [x] directive / condition token 策略清楚且有测试。
 - [ ] 核心包仍保持小 API、无 Steam 业务绑定、无危险自动文件读取。
