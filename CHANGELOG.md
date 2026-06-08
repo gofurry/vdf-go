@@ -7,12 +7,24 @@ small, documented, and covered by tests.
 
 ## Unreleased
 
+No changes yet.
+
+## v0.2.4 - Small AST Editing API
+
 ### Added
 
-- Malformed corpus fixtures for unexpected braces, missing directive values,
-  unterminated conditions, deep nesting, and oversized tokens.
-- Regression tests to ensure parser errors do not echo sensitive input.
-- Benchmarks for parsing and marshaling real fixtures.
+- `Document.Clone` and `Node.Clone`.
+- `Document.Append` and `Node.Append`.
+- `Document.SetFirst` and `Node.SetFirst`.
+- `Document.RemoveFirst` / `Node.RemoveFirst`.
+- `Document.RemoveAll` / `Node.RemoveAll`.
+
+### Notes
+
+- `SetFirst` replaces only the first matching key and preserves later duplicate
+  keys.
+- `RemoveAll` is explicit about removing every matching key.
+- The AST remains slice-based and preserves order and duplicates.
 
 ## v0.2.3 - Fuzz and Malformed Corpus Hardening
 

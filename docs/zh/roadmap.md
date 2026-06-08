@@ -154,7 +154,7 @@
 
 ### v0.2.4 - 小型文档树操作 API 评估
 
-**Status:** Planned  
+**Status:** Completed  
 **Scope:** API / Developer-facing  
 **Goal:** 评估是否需要增加少量 AST 操作 helper，同时保护重复 key 和顺序语义。
 
@@ -166,16 +166,20 @@
 
 #### Tasks
 
-- [ ] 评估 `Append`、`Remove`、`SetFirst`、`Clone` 等 helper 是否确实能减少用户代码复杂度。
-- [ ] 明确任何 `Set` 类 API 不得默认覆盖所有重复 key。
-- [ ] 如果增加 API，优先提供小而可预测的方法，并补充迁移说明。
-- [ ] 如果风险大，仅在文档中给出推荐操作模式，不急于加入公共 API。
+- [x] 评估 `Append`、`Remove`、`SetFirst`、`Clone` 等 helper 是否确实能减少用户代码复杂度。
+- [x] 明确任何 `Set` 类 API 不得默认覆盖所有重复 key。
+- [x] 如果增加 API，优先提供小而可预测的方法，并补充迁移说明。
+- [x] 如果风险大，仅在文档中给出推荐操作模式，不急于加入公共 API。
 
 #### Acceptance Criteria
 
 - 不破坏 `First` / `All` / `Path` 的既有语义。
 - 不引入 map 化 AST。
 - API 增量有测试和文档说明。
+
+#### Notes
+
+`v0.2.4` 增加了 `Append`、`SetFirst`、`RemoveFirst`、`RemoveAll` 和 `Clone`。其中 `SetFirst` 只替换第一个同名 key，不会删除后续重复 key；`RemoveAll` 用显式命名表达“移除全部匹配项”。核心 AST 仍然保持 slice 结构，不引入 map 化对象模型。
 
 ## v0.2.x 延后事项
 
@@ -201,4 +205,4 @@
 - [x] GoDoc、CHANGELOG、中文文档和 release checklist 完成。
 - [x] fuzz 和 malformed corpus 明显增强。
 - [x] directive / condition token 策略清楚且有测试。
-- [ ] 核心包仍保持小 API、无 Steam 业务绑定、无危险自动文件读取。
+- [x] 核心包仍保持小 API、无 Steam 业务绑定、无危险自动文件读取。

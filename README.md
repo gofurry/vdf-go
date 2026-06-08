@@ -127,6 +127,22 @@ node.AsBool()
 Boolean parsing accepts `1/true/yes/on` and `0/false/no/off`. This is a
 `vdf-go` convenience behavior, not an official Valve type system.
 
+## Editing
+
+Small tree editing helpers are available for callers that want to modify the AST
+without converting it to a map:
+
+```go
+doc.Append(vdf.NewValue("new_key", "value"))
+doc.SetFirst(vdf.NewValue("name", "Updated Name"))
+removed := doc.RemoveFirst("old_key")
+all := doc.RemoveAll("duplicate_key")
+copy := doc.Clone()
+```
+
+`SetFirst` only replaces the first matching key. It does not remove later
+duplicates.
+
 ## Errors
 
 Parse failures return `*vdf.ParseError` with line, column, and byte offset:

@@ -70,6 +70,24 @@ fmt.Print(text)
 
 Marshal 输出是稳定、可读的 VDF，但不会保留原始注释、空行、缩进风格或 quote 风格。
 
+## 小型 AST 操作
+
+如果需要直接修改 `Document` / `Node`，可以使用小型操作 helper：
+
+```go
+doc.Append(vdf.NewValue("new_key", "value"))
+doc.SetFirst(vdf.NewValue("name", "Updated Name"))
+removed := doc.RemoveFirst("old_key")
+all := doc.RemoveAll("duplicate_key")
+copy := doc.Clone()
+```
+
+`SetFirst` 只替换第一个同名 key，不会删除后续重复 key。如果 key 不存在，它会追加新节点。
+
+`RemoveFirst` 只移除第一个匹配项；`RemoveAll` 会移除所有匹配项。这个命名是有意为之，避免在保留重复 key 的 AST 中发生隐式覆盖。
+
+`Clone` 会深拷贝文档树，适合在修改前保留原始结构。
+
 ## `.cfg` 说明
 
 `vdf-go` 支持 KeyValues 风格 `.cfg`，但不支持 Source / console command 风格 `.cfg`。
