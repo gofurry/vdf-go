@@ -1,5 +1,7 @@
 # vdf-go
 
+[中文 README](docs/zh/README.md)
+
 A small Go parser and toolkit for Valve Data Format (VDF / KeyValues) text files.
 
 `vdf-go` focuses on the generic text format used by Valve and Steam files such as
@@ -171,13 +173,13 @@ round-tripping, or automatic include/base expansion.
 
 See [docs/compatibility.md](docs/compatibility.md) for details.
 
-## Chinese Documentation
+## Documentation
 
-Chinese documentation is maintained under [docs/zh](docs/zh/README.md),
-including the active roadmap and Steam / Valve format compatibility notes.
-
-Release preparation steps are documented in
-[docs/release-checklist.md](docs/release-checklist.md).
+- [Compatibility](docs/compatibility.md)
+- [Architecture](docs/architecture.md)
+- [Roadmap](docs/roadmap.md)
+- [Release checklist](docs/release-checklist.md)
+- [Chinese README](docs/zh/README.md)
 
 ## Project Layout
 
