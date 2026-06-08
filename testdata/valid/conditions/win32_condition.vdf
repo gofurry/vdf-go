@@ -1,0 +1,5 @@
+"root"
+{
+	"windows"	"kept" [$WIN32]
+	"common"	"kept"
+}

@@ -1,0 +1,7 @@
+"Weapon.SampleFire"
+{
+	"channel"	"CHAN_WEAPON"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"volume"	"1.0"
+	"wave"	"weapons/sample_fire.wav"
+}

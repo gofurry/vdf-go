@@ -1,0 +1,166 @@
+"InstallConfigStore"
+{
+	"Software"
+	{
+		"Valve"
+		{
+			"Steam"
+			{
+				"AutoUpdateWindowEnabled"	"0"
+				"ipv6check_http_state"	"bad"
+				"ipv6check_udp_state"	"bad"
+				"ShaderCacheManager"
+				{
+					"HasCurrentBucket"	"1"
+					"CurrentBucketGPU"	"sample-gpu"
+					"CurrentBucketDriver"	"sample-driver"
+				}
+				"RecentWebSocket443Failures"	""
+				"RecentWebSocketNon443Failures"	"1778841772,1778841804,1778841804,1778841806,1778841806,1778841824,1778841824,1778841842,1778841842,1778841860"
+				"RecentUDPFailures"	""
+				"RecentTCPFailures"	""
+				"CMWebSocket"
+				{
+					"cm1.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"lax1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm2.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"sea1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm3.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"ord1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm4.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"dfw2"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm5.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"sea1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm6.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"dfw2"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm7.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"dfw2"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm8.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"lax1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm9.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"lax1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm10.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"lax1"
+					}
+					"cm11.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"sea1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm12.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"sea1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm13.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"dfw2"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+					"cm14.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"ord1"
+					}
+					"cm15.example.steamserver.net:443"
+					{
+						"LastPingTimestamp"	"1700000000"
+						"dc"	"ord1"
+						"LastPingValue"	"100000"
+						"LastLoadValue"	"0"
+					}
+				}
+				"Accounts"
+				{
+					"sample_account"
+					{
+						"SteamID"	"76561198000000000"
+					}
+					"sample_alt"
+					{
+						"SteamID"	"76561198000000001"
+					}
+				}
+				"CellIDServerOverride"	"10"
+				"MTBF"	"363049183"
+				"cip"	"203.0.113.10"
+				"SurveyDate"	"1700000000"
+				"SurveyDateVersion"	"-347080458836823148"
+				"SurveyDateType"	"3"
+				"Rate"	"30000"
+			}
+		}
+	}
+	"SDL_GamepadBind"	"03000000de280000ff11000001000000,Steam Virtual Gamepad,a:b0,b:b1,back:b6,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,leftshoulder:b4,leftstick:b8,lefttrigger:+a2,leftx:a0,lefty:a1,rightshoulder:b5,rightstick:b9,righttrigger:-a2,rightx:a3,righty:a4,start:b7,x:b2,y:b3,platform:Windows,\n03000000de280000ff11000000000000,Steam Virtual Gamepad,a:b0,b:b1,back:b6,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,leftshoulder:b4,leftstick:b8,lefttrigger:+a2,leftx:a0,lefty:a1,rightshoulder:b5,rightstick:b9,righttrigger:-a2,rightx:a3,righty:a4,start:b7,x:b2,y:b3,platform:Windows,\n03000000de280000ff11000000007701,Steam Virtual Gamepad,a:b0,b:b1,x:b2,y:b3,back:b6,start:b7,leftstick:b8,rightstick:b9,leftshoulder:b4,rightshoulder:b5,dpup:b10,dpdown:b12,dpleft:b13,dpright:b11,leftx:a1,lefty:a0~,rightx:a3,righty:a2~,lefttrigger:a4,righttrigger:a5,"
+	"streaming"
+	{
+		"ClientID"	"1234567890123456789"
+	}
+	"WebStorage"
+	{
+		"Auth"
+		{
+			"AlwaysShowUserChooser"	"1"
+		}
+	}
+	"Authentication"
+	{
+		"RememberedMachineID"
+		{
+			"machine-id-1"	"eyAidHlwIjogIkpXVCIsICJhbGciOiAiRWREU0EiIH0.eyAiaXNzIjogInI6MDAwN18yODJFQ0NGM18yNUQ2MSIsICJzdWIiOiAiNzY1NjExOTkyMDQ3OTc2MjIiLCAiYXVkIjogWyAibWFjaGluZSIgXSwgImV4cCI6IDE3OTcxNDg5MjMsICJuYmYiOiAxNzcwMTg1ODY2LCAiaWF0IjogMTc3ODgyNTg2NiwgImp0aSI6ICIwMDE0XzI4MkVDQ0Y2X0VGQjREIiwgIm9hdCI6IDE3Nzg4MjU4NjYsICJydF9leHAiOiAxNzk3MTQ4NDAwLCAicGVyIjogMCwgImlwX3N1YmplY3QiOiAiMTA0LjIzNC40LjEwMyIsICJpcF9jb25maXJtZXIiOiAiMTA0LjIzNC40LjEwMyIgfQ.1C_SMt6YB_eeexaWfVbrp_p3kFpAOLgInlsXuZJen-vrF3K8uKw0X4DwbHYila-IxsLojVftlCK9Y2AZWZBUAA"
+		}
+	}
+}
