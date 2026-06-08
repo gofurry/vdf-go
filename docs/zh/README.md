@@ -2,6 +2,11 @@
 
 [English README](../../README.md)
 
+![License](https://img.shields.io/badge/License-MIT-6C757D?style=flat&color=3B82F6)
+![Release](https://img.shields.io/github/v/release/gofurry/vdf-go?style=flat&color=blue)
+![Go Version](https://img.shields.io/badge/Go-1.22%2B-00ADD8?style=flat&logo=go&logoColor=white)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gofurry/vdf-go)](https://goreportcard.com/report/github.com/gofurry/vdf-go)
+
 一个用于解析和写出 Valve Data Format（VDF / KeyValues）文本文件的小型 Go 库。
 
 `vdf-go` 关注 Valve 和 Steam 生态中的通用文本格式，例如 `libraryfolders.vdf`、`appmanifest_*.acf`、`config.vdf`、Source 风格 KeyValues 文件，以及 KeyValues 风格 `.cfg` 文件。它不是 Steam 客户端扫描器，也不实现 binary VDF。
