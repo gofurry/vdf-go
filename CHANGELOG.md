@@ -25,6 +25,8 @@ small, documented, and covered by tests.
 - Updated CI to run race and coverage checks.
 - Pinned mainline Staticcheck CI to `2025.1.1` and kept a scheduled latest
   advisory job.
+- Replaced the deprecated Staticcheck GitHub Action with direct `go install`
+  invocations to avoid old `actions/cache` dependencies.
 - Updated `SECURITY.md` to refer to the latest pre-1.0 release line.
 
 ## v0.2.4 - Small AST Editing API
